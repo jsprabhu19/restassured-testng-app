@@ -8,7 +8,9 @@ import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 
 public class AuthTest extends BaseTest {
 
@@ -44,10 +46,13 @@ public class AuthTest extends BaseTest {
                 .when()
                 .get("/headers");
 
-        // Verify authentication success
+        // Verify authentication success. Support both String value (Python httpbin) and Array/List (Go httpbin)
         response.then()
                 .statusCode(200)
-                .body("headers.Authorization", equalTo("Bearer " + extractedToken));
+                .body("headers.Authorization", anyOf(
+                        equalTo("Bearer " + extractedToken),
+                        hasItem("Bearer " + extractedToken)
+                ));
     }
 
     @Test(groups = {"auth"}, description = "Demonstrate standard Basic Authentication")
@@ -62,8 +67,13 @@ public class AuthTest extends BaseTest {
 
         response.then()
                 .statusCode(200)
-                .body("authenticated", equalTo(true))
                 .body("user", equalTo("admin"));
+
+        // Support both "authenticated: true" (Python/recent Go httpbin) and "authorized: true" (older Go httpbin)
+        Object authenticatedVal = response.jsonPath().get("authenticated");
+        Object authorizedVal = response.jsonPath().get("authorized");
+        boolean isAuth = Boolean.TRUE.equals(authenticatedVal) || Boolean.TRUE.equals(authorizedVal);
+        assertThat(isAuth).isTrue();
     }
 
     @Test(groups = {"auth"}, description = "Demonstrate Preemptive Basic Authentication")
@@ -79,7 +89,12 @@ public class AuthTest extends BaseTest {
 
         response.then()
                 .statusCode(200)
-                .body("authenticated", equalTo(true))
                 .body("user", equalTo("admin"));
+
+        // Support both "authenticated: true" and "authorized: true"
+        Object authenticatedVal = response.jsonPath().get("authenticated");
+        Object authorizedVal = response.jsonPath().get("authorized");
+        boolean isAuth = Boolean.TRUE.equals(authenticatedVal) || Boolean.TRUE.equals(authorizedVal);
+        assertThat(isAuth).isTrue();
     }
 }

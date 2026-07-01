@@ -15,6 +15,11 @@ jobs:
         image: kong/httpbin:latest
         ports:
           - 8080:80
+        options: >-
+          --health-cmd "(curl -f http://localhost/get || wget -qO- http://localhost/get || python -c \"import urllib.request; urllib.request.urlopen('http://localhost/get')\") || exit 1"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
 
     steps:
     - name: Checkout Code Repository
@@ -29,7 +34,7 @@ jobs:
 
     - name: Execute RestAssured Tests on QA Environment
       # Defaults env to 'qa' but permits overriding
-      run: mvn clean test -Denv=qa -Dbase.uri.httpbin=http://localhost:8080
+      run: mvn clean test -Denv=qa -Dbase.uri.httpbin=http://127.0.0.1:8080
 
     - name: Upload HTML ExtentReports Artifacts
       if: always() # Guarantee report gets uploaded even if tests fail

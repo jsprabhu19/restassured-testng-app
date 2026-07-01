@@ -12,9 +12,9 @@ jobs:
 
     services:
       httpbin:
-        image: kong/httpbin:latest
+        image: mccutchen/go-httpbin:v2.15.0
         ports:
-          - 8080:80
+          - 8080:8080
 
     steps:
     - name: Checkout Code Repository

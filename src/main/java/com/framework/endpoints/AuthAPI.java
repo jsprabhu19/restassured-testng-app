@@ -11,8 +11,8 @@ import static io.restassured.RestAssured.given;
 public final class AuthAPI {
 
     private static final Logger log = LoggerFactory.getLogger(AuthAPI.class);
-    private static final String LOGIN_ENDPOINT = "https://httpbin.org/post";
-    private static final String REGISTER_ENDPOINT = "https://httpbin.org/post";
+    private static final String LOGIN_ENDPOINT = "/post";
+    private static final String REGISTER_ENDPOINT = "/post";
 
     private AuthAPI() {
         // Prevent instantiation
@@ -24,7 +24,7 @@ public final class AuthAPI {
     public static Response login(LoginPayload payload) {
         log.info("Sending POST request to login: {}", LOGIN_ENDPOINT);
         return given()
-                .spec(BaseAPI.getReqResSpec())
+                .spec(BaseAPI.getHttpBinSpec())
                 .body(payload)
                 .when()
                 .post(LOGIN_ENDPOINT);
@@ -36,7 +36,7 @@ public final class AuthAPI {
     public static Response register(LoginPayload payload) {
         log.info("Sending POST request to register user: {}", REGISTER_ENDPOINT);
         return given()
-                .spec(BaseAPI.getReqResSpec())
+                .spec(BaseAPI.getHttpBinSpec())
                 .body(payload)
                 .when()
                 .post(REGISTER_ENDPOINT);

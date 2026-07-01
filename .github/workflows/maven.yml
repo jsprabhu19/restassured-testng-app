@@ -15,11 +15,6 @@ jobs:
         image: kong/httpbin:latest
         ports:
           - 8080:80
-        options: >-
-          --health-cmd "(curl -f http://localhost/get || wget -qO- http://localhost/get || python -c \"import urllib.request; urllib.request.urlopen('http://localhost/get')\") || exit 1"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 10
 
     steps:
     - name: Checkout Code Repository
@@ -31,6 +26,20 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+
+    - name: Wait for HttpBin service to be healthy
+      run: |
+        echo "Waiting for local httpbin container..."
+        for i in {1..15}; do
+          if curl -s -f http://127.0.0.1:8080/get > /dev/null; then
+            echo "HttpBin is up and responding!"
+            exit 0
+          fi
+          echo "Waiting..."
+          sleep 2
+        done
+        echo "Error: HttpBin failed to start in time."
+        exit 1
 
     - name: Execute RestAssured Tests on QA Environment
       # Defaults env to 'qa' but permits overriding

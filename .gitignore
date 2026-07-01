@@ -1,0 +1,21 @@
+# Maven build output
+target/
+*.class
+
+# Log files
+*.log
+logs/
+
+# IDE / Editor settings
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+.vscode/
+
+# Local configuration overrides
+.env
+.gemini/
+.agents/
+.git/

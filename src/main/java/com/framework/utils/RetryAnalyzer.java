@@ -18,6 +18,13 @@ public class RetryAnalyzer implements IRetryAnalyzer {
                 retryCount++;
                 log.warn("Test '{}' failed. Retrying execution (Attempt {}/{})...", 
                         result.getName(), retryCount, MAX_RETRY_LIMIT);
+                try {
+                    log.info("Sleeping 2000 ms before retry attempt {} for test '{}' to allow network/API recovery...", 
+                            retryCount, result.getName());
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
                 return true; // Tells TestNG to re-run the test case
             }
         }

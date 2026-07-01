@@ -45,6 +45,12 @@ public final class ConfigReader {
     }
 
     public String get(String key) {
+        String systemValue = System.getProperty(key);
+        if (systemValue != null && !systemValue.trim().isEmpty()) {
+            log.info("System property override found for key '{}': {}", key, systemValue);
+            return systemValue.trim();
+        }
+
         String value = properties.getProperty(key);
         if (value == null) {
             log.warn("Property key '{}' not found in properties.", key);

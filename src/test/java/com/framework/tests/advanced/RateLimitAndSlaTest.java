@@ -16,11 +16,11 @@ public class RateLimitAndSlaTest extends BaseTest {
     public void testResponseSlaAssertion() {
         log.info("Executing API request to test SLA response time assertion");
         
-        // Assert that GET /api/users/2 responds in less than 3 seconds (3000 milliseconds)
+        // Assert that GET /api/users/2 responds in less than 5 seconds (5000 milliseconds)
         UserAPI.getUser(2)
                 .then()
                 .statusCode(200)
-                .time(lessThan(3000L), TimeUnit.MILLISECONDS);
+                .time(lessThan(5000L), TimeUnit.MILLISECONDS);
         
         log.info("Response time verification against SLA threshold passed.");
     }

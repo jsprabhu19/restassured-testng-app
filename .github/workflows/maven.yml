@@ -10,6 +10,12 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    services:
+      httpbin:
+        image: kong/httpbin:latest
+        ports:
+          - 8080:80
+
     steps:
     - name: Checkout Code Repository
       uses: actions/checkout@v4
@@ -23,7 +29,7 @@ jobs:
 
     - name: Execute RestAssured Tests on QA Environment
       # Defaults env to 'qa' but permits overriding
-      run: mvn clean test -Denv=qa
+      run: mvn clean test -Denv=qa -Dbase.uri.httpbin=http://localhost:8080
 
     - name: Upload HTML ExtentReports Artifacts
       if: always() # Guarantee report gets uploaded even if tests fail

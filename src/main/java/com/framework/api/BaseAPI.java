@@ -11,7 +11,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Base Class for managing REST Assured RequestSpecifications.
- * Instantiates pre-configured request blueprints with custom timeout parameters, SSL validations,
+ * Instantiates pre-configured request blueprints with custom timeout
+ * parameters, SSL validations,
  * request/response logging filters, and rate-limiting retry policies.
  */
 public class BaseAPI {
@@ -23,7 +24,8 @@ public class BaseAPI {
     }
 
     /**
-     * Builds a thread-safe, pre-configured RequestSpecification for a specific base URI.
+     * Builds a thread-safe, pre-configured RequestSpecification for a specific base
+     * URI.
      * Sets common headers, timeouts, SSL validation bypass, custom masking filters,
      * and rate-limiting retry filters.
      *
@@ -32,7 +34,7 @@ public class BaseAPI {
      */
     public static RequestSpecification getBaseSpec(String baseUri) {
         log.info("Constructing new RequestSpecification for Base URI: {}", baseUri);
-        
+
         ConfigReader reader = ConfigReader.getInstance();
         int connTimeout = reader.getInt("timeout.connection");
         int socketTimeout = reader.getInt("timeout.socket");
@@ -49,8 +51,8 @@ public class BaseAPI {
                 .setAccept(ContentType.JSON)
                 .setConfig(timeoutConfig)
                 .setRelaxedHTTPSValidation() // Bypass SSL/TLS errors (common interview scenario)
-                .addFilter(new LogMaskFilter())     // Mask sensitive fields in logs
-                .addFilter(new RateLimitHandler())  // Automatically handle 429 retries
+                .addFilter(new LogMaskFilter()) // Mask sensitive fields in logs
+                .addFilter(new RateLimitHandler()) // Automatically handle 429 retries
                 .build();
     }
 

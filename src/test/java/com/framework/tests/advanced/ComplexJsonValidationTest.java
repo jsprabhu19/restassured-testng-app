@@ -17,6 +17,11 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.*;
 
+/**
+ * Test Suite validating advanced JSON assertion techniques.
+ * Demonstrates Groovy GPath expressions, JSONAssert deep tree matching, SoftAsserts,
+ * and JSON Schema schema compliance contract assertions.
+ */
 public class ComplexJsonValidationTest extends BaseTest {
 
     @Test(groups = {"regression", "assertions"}, description = "Demonstrate deep JSON querying using Groovy GPath expressions")

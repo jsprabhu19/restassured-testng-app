@@ -12,10 +12,18 @@ import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 
+/**
+ * Test Suite validating Basic and Bearer Authentication techniques.
+ * Exercises target endpoints hosted on HttpBin.
+ */
 public class AuthTest extends BaseTest {
 
     private String extractedToken;
 
+    /**
+     * Sends credentials payload, validates status code 200, and extracts the password
+     * value from HttpBin's post request echo to simulate session token retrieval.
+     */
     @Test(groups = {"smoke", "auth"}, description = "Verify user login and token extraction")
     public void testLoginAndExtractToken() {
         // Prepare login credentials (standard ReqRes credentials)
@@ -36,6 +44,10 @@ public class AuthTest extends BaseTest {
         assertThat(extractedToken).isNotEmpty();
     }
 
+    /**
+     * Executes GET request to /headers supplying a Bearer authentication token.
+     * Asserts that the server processes and returns the header correctly.
+     */
     @Test(dependsOnMethods = "testLoginAndExtractToken", groups = {"auth"}, description = "Demonstrate passing Bearer token to a secured endpoint")
     public void testSecuredRouteWithBearerToken() {
         log.info("Sending Bearer token: {} to secure endpoint /headers on HttpBin", extractedToken);
@@ -55,6 +67,10 @@ public class AuthTest extends BaseTest {
                 ));
     }
 
+    /**
+     * Validates standard HTTP Basic Authentication.
+     * RestAssured performs the challenge request automatically.
+     */
     @Test(groups = {"auth"}, description = "Demonstrate standard Basic Authentication")
     public void testStandardBasicAuth() {
         // HttpBin endpoint /basic-auth/{user}/{passwd} validates credentials
@@ -76,6 +92,10 @@ public class AuthTest extends BaseTest {
         assertThat(isAuth).isTrue();
     }
 
+    /**
+     * Validates Preemptive HTTP Basic Authentication.
+     * Credentials are sent immediately in the first request header.
+     */
     @Test(groups = {"auth"}, description = "Demonstrate Preemptive Basic Authentication")
     public void testPreemptiveBasicAuth() {
         // Preemptive auth sends credentials directly in request header without waiting for 401 challenge

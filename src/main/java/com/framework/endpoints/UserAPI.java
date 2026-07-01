@@ -8,6 +8,10 @@ import org.slf4j.LoggerFactory;
 
 import static io.restassured.RestAssured.given;
 
+/**
+ * Wrapper class containing endpoint utilities for managing User records on the ReqRes service.
+ * Supports basic CRUD operations (POST, GET, PUT, DELETE) using standard specifications.
+ */
 public final class UserAPI {
 
     private static final Logger log = LoggerFactory.getLogger(UserAPI.class);
@@ -20,6 +24,9 @@ public final class UserAPI {
 
     /**
      * Creates a new user record.
+     *
+     * @param payload User profile payload details
+     * @return REST Assured Response
      */
     public static Response createUser(UserPayload payload) {
         log.info("Sending POST request to create user: {}", USERS_ENDPOINT);
@@ -32,6 +39,9 @@ public final class UserAPI {
 
     /**
      * Retrieves a single user record by ID.
+     *
+     * @param id User ID to query
+     * @return REST Assured Response
      */
     public static Response getUser(int id) {
         log.info("Sending GET request for user ID: {}", id);
@@ -44,6 +54,9 @@ public final class UserAPI {
 
     /**
      * Retrieves a page of user records.
+     *
+     * @param page Target page number to retrieve
+     * @return REST Assured Response
      */
     public static Response getUsers(int page) {
         log.info("Sending GET request for users list on page: {}", page);
@@ -56,6 +69,10 @@ public final class UserAPI {
 
     /**
      * Updates an existing user record.
+     *
+     * @param id User ID to update
+     * @param payload Updated user profile details
+     * @return REST Assured Response
      */
     public static Response updateUser(int id, UserPayload payload) {
         log.info("Sending PUT request to update user ID: {}", id);
@@ -69,6 +86,9 @@ public final class UserAPI {
 
     /**
      * Deletes an existing user record.
+     *
+     * @param id User ID to delete
+     * @return REST Assured Response
      */
     public static Response deleteUser(int id) {
         log.info("Sending DELETE request for user ID: {}", id);

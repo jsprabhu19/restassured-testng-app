@@ -10,6 +10,10 @@ import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.Matchers.lessThan;
 
+/**
+ * Test Suite validating non-functional performance requirements.
+ * Verifies response SLA thresholds and automated HTTP 429 Rate Limit backoff logic.
+ */
 public class RateLimitAndSlaTest extends BaseTest {
 
     @Test(groups = {"regression", "performance"}, description = "Validate response SLA (Response Time Limit)")

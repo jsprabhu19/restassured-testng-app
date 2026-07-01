@@ -14,6 +14,10 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Test Suite validating parallel data-driven execution.
+ * Reads inputs from static JSON files and runs creation tests concurrently.
+ */
 public class DataDrivenUserTest extends BaseTest {
 
     /**

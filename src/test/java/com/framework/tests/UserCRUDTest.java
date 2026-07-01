@@ -9,6 +9,10 @@ import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Test Suite validating standard CRUD operations for user profiles.
+ * Interacts with ReqRes endpoints to verify POST, GET, PUT, and DELETE methods.
+ */
 public class UserCRUDTest extends BaseTest {
 
     private int createdUserId;

@@ -5,10 +5,18 @@ import org.testng.annotations.BeforeSuite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Parent Base class for all TestNG suite tests.
+ * Manages suite-wide initialization log outputs and configurations.
+ */
 public class BaseTest {
 
     protected static final Logger log = LoggerFactory.getLogger(BaseTest.class);
 
+    /**
+     * Initializes suite metrics. Logs configuration parameters, environmental variables,
+     * and target REST server endpoints.
+     */
     @BeforeSuite
     public void setupSuite() {
         // Output configuration metadata before executing tests

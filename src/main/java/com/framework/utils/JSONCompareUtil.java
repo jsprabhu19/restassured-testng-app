@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Utility for performing deep JSON assertions.
+ * Utilizes the Skyscreamer JSONAssert library to support strict or lenient comparison modes.
+ */
 public final class JSONCompareUtil {
 
     private static final Logger log = LoggerFactory.getLogger(JSONCompareUtil.class);

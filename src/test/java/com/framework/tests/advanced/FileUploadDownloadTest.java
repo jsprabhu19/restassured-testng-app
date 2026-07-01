@@ -11,6 +11,10 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Test Suite validating file handling capabilities.
+ * Exercises REST Assured multi-part file uploads and binary stream downloading.
+ */
 public class FileUploadDownloadTest extends BaseTest {
 
     @Test(groups = {"regression", "files"}, description = "Verify multipart form-data file upload")

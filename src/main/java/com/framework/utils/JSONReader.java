@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Utility for parsing structured JSON files.
+ * Utilizes the Jackson ObjectMapper library to parse file contents into collections.
+ */
 public final class JSONReader {
 
     private static final Logger log = LoggerFactory.getLogger(JSONReader.class);

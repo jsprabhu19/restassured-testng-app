@@ -9,6 +9,11 @@ import io.restassured.specification.RequestSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Base Class for managing REST Assured RequestSpecifications.
+ * Instantiates pre-configured request blueprints with custom timeout parameters, SSL validations,
+ * request/response logging filters, and rate-limiting retry policies.
+ */
 public class BaseAPI {
 
     private static final Logger log = LoggerFactory.getLogger(BaseAPI.class);

@@ -9,10 +9,24 @@ import io.restassured.specification.FilterableResponseSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Custom REST Assured Filter that intercepts API requests and responses, formats them,
+ * masks sensitive configuration data (such as passwords, secrets, or tokens), and logs
+ * the details to both SLF4J logger and the ExtentReport manager.
+ */
 public class LogMaskFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(LogMaskFilter.class);
 
+    /**
+     * Intercepts HTTP requests and responses, applies masking, and logs request/response
+     * details before delegating the execution downstream.
+     *
+     * @param requestSpec Request specification being logged
+     * @param responseSpec Response specification being logged
+     * @param ctx RestAssured filter context
+     * @return Raw HTTP Response
+     */
     @Override
     public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext ctx) {
         // Intercept and format Request log
@@ -31,6 +45,13 @@ public class LogMaskFilter implements Filter {
         return response;
     }
 
+    /**
+     * Formats API Request components including Method, URI, Headers (with Auth masking),
+     * and Request Body (with field-level masking).
+     *
+     * @param requestSpec Request details to format
+     * @return Formatted request log string
+     */
     private String formatRequestLog(FilterableRequestSpecification requestSpec) {
         StringBuilder reqLog = new StringBuilder();
         reqLog.append("\n=================== API REQUEST ===================\n");
@@ -58,6 +79,13 @@ public class LogMaskFilter implements Filter {
         return reqLog.toString();
     }
 
+    /**
+     * Formats API Response components including Status Code, Response Time, Headers,
+     * and Response Body with sensitive information masked.
+     *
+     * @param response Response object to format
+     * @return Formatted response log string
+     */
     private String formatResponseLog(Response response) {
         StringBuilder resLog = new StringBuilder();
         resLog.append("\n=================== API RESPONSE ==================\n");
@@ -85,6 +113,13 @@ public class LogMaskFilter implements Filter {
         return resLog.toString();
     }
 
+    /**
+     * Scans JSON content or text inputs to mask sensitive security keys.
+     * Target keywords include password, token, secret, token_id, pwd, passwd.
+     *
+     * @param input Raw text payload
+     * @return Payload with sensitive details masked
+     */
     private String maskSensitiveFields(String input) {
         if (input == null || input.trim().isEmpty()) {
             return input;

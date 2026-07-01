@@ -108,6 +108,7 @@ public class FrameworkListener implements ISuiteListener, ITestListener, IInvoke
      * @param method     Invoked method reference
      * @param testResult Method execution context
      */
+    @SuppressWarnings("deprecation")
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
         if (method.isTestMethod()) {
@@ -124,6 +125,7 @@ public class FrameworkListener implements ISuiteListener, ITestListener, IInvoke
      * @param method     Invoked method reference
      * @param testResult Method execution context
      */
+    @SuppressWarnings("deprecation")
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
         if (method.isTestMethod()) {

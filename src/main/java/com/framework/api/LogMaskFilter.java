@@ -10,8 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Custom REST Assured Filter that intercepts API requests and responses, formats them,
- * masks sensitive configuration data (such as passwords, secrets, or tokens), and logs
+ * Custom REST Assured Filter that intercepts API requests and responses,
+ * formats them,
+ * masks sensitive configuration data (such as passwords, secrets, or tokens),
+ * and logs
  * the details to both SLF4J logger and the ExtentReport manager.
  */
 public class LogMaskFilter implements Filter {
@@ -19,16 +21,18 @@ public class LogMaskFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(LogMaskFilter.class);
 
     /**
-     * Intercepts HTTP requests and responses, applies masking, and logs request/response
+     * Intercepts HTTP requests and responses, applies masking, and logs
+     * request/response
      * details before delegating the execution downstream.
      *
-     * @param requestSpec Request specification being logged
+     * @param requestSpec  Request specification being logged
      * @param responseSpec Response specification being logged
-     * @param ctx RestAssured filter context
+     * @param ctx          RestAssured filter context
      * @return Raw HTTP Response
      */
     @Override
-    public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext ctx) {
+    public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec,
+            FilterContext ctx) {
         // Intercept and format Request log
         String maskedRequest = formatRequestLog(requestSpec);
         log.info(maskedRequest);
@@ -46,7 +50,8 @@ public class LogMaskFilter implements Filter {
     }
 
     /**
-     * Formats API Request components including Method, URI, Headers (with Auth masking),
+     * Formats API Request components including Method, URI, Headers (with Auth
+     * masking),
      * and Request Body (with field-level masking).
      *
      * @param requestSpec Request details to format
@@ -57,11 +62,12 @@ public class LogMaskFilter implements Filter {
         reqLog.append("\n=================== API REQUEST ===================\n");
         reqLog.append("Method: ").append(requestSpec.getMethod()).append("\n");
         reqLog.append("URI   : ").append(requestSpec.getURI()).append("\n");
-        
+
         reqLog.append("Headers:\n");
         if (requestSpec.getHeaders() != null) {
             requestSpec.getHeaders().forEach(h -> {
-                if (h.getName().equalsIgnoreCase("Authorization") || h.getName().equalsIgnoreCase("Token") || h.getName().equalsIgnoreCase("x-auth-token")) {
+                if (h.getName().equalsIgnoreCase("Authorization") || h.getName().equalsIgnoreCase("Token")
+                        || h.getName().equalsIgnoreCase("x-auth-token")) {
                     reqLog.append("  ").append(h.getName()).append(": [MASKED]\n");
                 } else {
                     reqLog.append("  ").append(h.getName()).append(": ").append(h.getValue()).append("\n");
@@ -80,7 +86,8 @@ public class LogMaskFilter implements Filter {
     }
 
     /**
-     * Formats API Response components including Status Code, Response Time, Headers,
+     * Formats API Response components including Status Code, Response Time,
+     * Headers,
      * and Response Body with sensitive information masked.
      *
      * @param response Response object to format
@@ -89,9 +96,10 @@ public class LogMaskFilter implements Filter {
     private String formatResponseLog(Response response) {
         StringBuilder resLog = new StringBuilder();
         resLog.append("\n=================== API RESPONSE ==================\n");
-        resLog.append("Status Code: ").append(response.getStatusCode()).append(" (").append(response.getStatusLine().trim()).append(")\n");
+        resLog.append("Status Code: ").append(response.getStatusCode()).append(" (")
+                .append(response.getStatusLine().trim()).append(")\n");
         resLog.append("Response Time: ").append(response.getTime()).append(" ms\n");
-        
+
         resLog.append("Headers:\n");
         if (response.getHeaders() != null) {
             response.getHeaders().forEach(h -> {
@@ -124,10 +132,13 @@ public class LogMaskFilter implements Filter {
         if (input == null || input.trim().isEmpty()) {
             return input;
         }
-        // Mask specific JSON keys (e.g. "password":"xyz", "token":"abc", "token_id":"123")
+        // Mask specific JSON keys (e.g. "password":"xyz", "token":"abc",
+        // "token_id":"123")
         // Matching both string and numeric/boolean formats
         return input
-                .replaceAll("(?i)\"((?:password|token|secret|token_id|pwd|passwd))\"\\s*:\\s*\"([^\"]+)\"", "\"$1\":\"[MASKED]\"")
-                .replaceAll("(?i)\"((?:password|token|secret|token_id|pwd|passwd))\"\\s*:\\s*([0-9a-zA-Z]+)", "\"$1\":[MASKED]");
+                .replaceAll("(?i)\"((?:password|token|secret|token_id|pwd|passwd))\"\\s*:\\s*\"([^\"]+)\"",
+                        "\"$1\":\"[MASKED]\"")
+                .replaceAll("(?i)\"((?:password|token|secret|token_id|pwd|passwd))\"\\s*:\\s*([0-9a-zA-Z]+)",
+                        "\"$1\":[MASKED]");
     }
 }

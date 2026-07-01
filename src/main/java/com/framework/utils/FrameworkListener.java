@@ -10,11 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Custom TestNG Listener that hooks into test execution lifecycle events (Suite, Test, and Method).
- * Responsible for initializing ExtentReports, updating status logs, reporting pass/fail details,
- * and displaying thread-specific console logs to assist in parallel execution analysis.
+ * Custom TestNG Listener that hooks into test execution lifecycle events
+ * (Suite, Test, and Method).
+ * Responsible for initializing ExtentReports, updating status logs, reporting
+ * pass/fail details,
+ * and displaying thread-specific console logs to assist in parallel execution
+ * analysis.
  */
-@SuppressWarnings("deprecation")
 public class FrameworkListener implements ISuiteListener, ITestListener, IInvokedMethodListener {
 
     private static final Logger log = LoggerFactory.getLogger(FrameworkListener.class);
@@ -22,7 +24,8 @@ public class FrameworkListener implements ISuiteListener, ITestListener, IInvoke
     // ==================== ISuiteListener ====================
 
     /**
-     * Triggered before suite execution starts. Initializes Extent Report configuration.
+     * Triggered before suite execution starts. Initializes Extent Report
+     * configuration.
      *
      * @param suite TestNG Suite context
      */
@@ -33,7 +36,8 @@ public class FrameworkListener implements ISuiteListener, ITestListener, IInvoke
     }
 
     /**
-     * Triggered after suite execution finishes. Writes metrics into the HTML report.
+     * Triggered after suite execution finishes. Writes metrics into the HTML
+     * report.
      *
      * @param suite TestNG Suite context
      */
@@ -70,19 +74,22 @@ public class FrameworkListener implements ISuiteListener, ITestListener, IInvoke
     }
 
     /**
-     * Triggered when a test method throws an assertion failure or uncaught exception.
+     * Triggered when a test method throws an assertion failure or uncaught
+     * exception.
      *
      * @param result Method result details
      */
     @Override
     public void onTestFailure(ITestResult result) {
         log.error("Test failed: {}", result.getMethod().getMethodName(), result.getThrowable());
-        ExtentReportManager.logFail("Test Case [" + result.getMethod().getMethodName() + "] failed.", result.getThrowable());
+        ExtentReportManager.logFail("Test Case [" + result.getMethod().getMethodName() + "] failed.",
+                result.getThrowable());
         ExtentReportManager.unload();
     }
 
     /**
-     * Triggered when a test method execution is skipped due to configuration failure or missing dependency.
+     * Triggered when a test method execution is skipped due to configuration
+     * failure or missing dependency.
      *
      * @param result Method result details
      */
@@ -98,14 +105,14 @@ public class FrameworkListener implements ISuiteListener, ITestListener, IInvoke
     /**
      * Triggered before any test method invocation. Logs thread ID and name details.
      *
-     * @param method Invoked method reference
+     * @param method     Invoked method reference
      * @param testResult Method execution context
      */
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
         if (method.isTestMethod()) {
             log.info("==> [INVOCATION START] Executing method '{}' on Thread ID: {} / Name: {}",
-                    method.getTestMethod().getMethodName(), 
+                    method.getTestMethod().getMethodName(),
                     Thread.currentThread().getId(),
                     Thread.currentThread().getName());
         }
@@ -114,14 +121,14 @@ public class FrameworkListener implements ISuiteListener, ITestListener, IInvoke
     /**
      * Triggered after any test method completes. Logs thread completion context.
      *
-     * @param method Invoked method reference
+     * @param method     Invoked method reference
      * @param testResult Method execution context
      */
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
         if (method.isTestMethod()) {
             log.info("<== [INVOCATION END] Completed method '{}' on Thread ID: {} / Name: {}",
-                    method.getTestMethod().getMethodName(), 
+                    method.getTestMethod().getMethodName(),
                     Thread.currentThread().getId(),
                     Thread.currentThread().getName());
         }

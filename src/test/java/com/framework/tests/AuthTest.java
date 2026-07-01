@@ -2,7 +2,6 @@ package com.framework.tests;
 
 import com.framework.endpoints.AuthAPI;
 import com.framework.pojo.LoginPayload;
-import com.framework.pojo.LoginResponse;
 import com.framework.api.BaseAPI;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;

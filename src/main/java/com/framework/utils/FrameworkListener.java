@@ -9,6 +9,7 @@ import org.testng.ITestResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("deprecation")
 public class FrameworkListener implements ISuiteListener, ITestListener, IInvokedMethodListener {
 
     private static final Logger log = LoggerFactory.getLogger(FrameworkListener.class);

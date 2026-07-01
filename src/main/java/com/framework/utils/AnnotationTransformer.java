@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 public class AnnotationTransformer implements IAnnotationTransformer {
 
     @Override
+    @SuppressWarnings("rawtypes")
     public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
         // Dynamically attach the RetryAnalyzer to all tests throughout execution
         annotation.setRetryAnalyzer(RetryAnalyzer.class);

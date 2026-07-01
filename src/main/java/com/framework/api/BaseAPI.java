@@ -25,6 +25,7 @@ public class BaseAPI {
      * @param baseUri Target Base URL
      * @return RequestSpecification
      */
+    @SuppressWarnings("deprecation")
     public static RequestSpecification getBaseSpec(String baseUri) {
         log.info("Constructing new RequestSpecification for Base URI: {}", baseUri);
         

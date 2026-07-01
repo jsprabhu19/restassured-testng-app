@@ -69,4 +69,14 @@ public class BaseAPI {
     public static RequestSpecification getHttpBinSpec() {
         return getBaseSpec(ConfigReader.getInstance().getBaseUriHttpBin());
     }
+
+    /**
+     * Helper to retrieve a standard RequestSpecification for the HttpBin API pre-configured with a Bearer Token.
+     *
+     * @param token Authentication Bearer token
+     * @return RequestSpecification
+     */
+    public static RequestSpecification getHttpBinSpecWithToken(String token) {
+        return getHttpBinSpec().header("Authorization", "Bearer " + token);
+    }
 }

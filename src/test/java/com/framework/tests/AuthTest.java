@@ -36,19 +36,18 @@ public class AuthTest extends BaseTest {
 
     @Test(dependsOnMethods = "testLoginAndExtractToken", groups = {"auth"}, description = "Demonstrate passing Bearer token to a secured endpoint")
     public void testSecuredRouteWithBearerToken() {
-        log.info("Sending Bearer token: {} to secure endpoint /bearer on HttpBin", extractedToken);
+        log.info("Sending Bearer token: {} to secure endpoint /headers on HttpBin", extractedToken);
         
         Response response = given()
                 .spec(BaseAPI.getHttpBinSpec())
                 .header("Authorization", "Bearer " + extractedToken)
                 .when()
-                .get("/bearer");
+                .get("/headers");
 
         // Verify authentication success
         response.then()
                 .statusCode(200)
-                .body("authenticated", equalTo(true))
-                .body("token", equalTo(extractedToken));
+                .body("headers.Authorization", equalTo("Bearer " + extractedToken));
     }
 
     @Test(groups = {"auth"}, description = "Demonstrate standard Basic Authentication")

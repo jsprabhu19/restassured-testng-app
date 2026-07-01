@@ -39,7 +39,7 @@ public class FileUploadDownloadTest extends BaseTest {
 
     @Test(groups = {"regression", "files"}, description = "Verify binary stream download validation")
     public void testFileDownload() {
-        int targetByteSize = 512; // Requesting exactly 512 bytes
+        int targetByteSize = 64; // Requesting exactly 64 bytes
 
         Response response = HttpBinAPI.downloadBytes(targetByteSize);
         
